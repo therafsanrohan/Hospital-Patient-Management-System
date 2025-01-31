@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_PATIENTS 100
+
+typedef struct {
+    char name[50];
+    int age;
+    char gender;
+    int id;
+    char condition[100];
+} Patient;
+
+Patient patients[MAX_PATIENTS];
+int patientCount = 0;
+
+void addPatient() {
+    if (patientCount >= MAX_PATIENTS) {
+        printf("Hospital is full. Cannot add more patients.\n");
+        return;
+    }
+    
+    printf("Enter patient name: ");
+    scanf(" %[^\n]", patients[patientCount].name);
+    printf("Enter age: ");
+    scanf("%d", &patients[patientCount].age);
+    printf("Enter gender (M/F): ");
+    scanf(" %c", &patients[patientCount].gender);
+    printf("Enter ID: ");
+    scanf("%d", &patients[patientCount].id);
+    printf("Enter condition: ");
+    scanf(" %[^\n]", patients[patientCount].condition);
+
+    printf("Patient added successfully.\n");
+    patientCount++;
+}
+
+void searchPatient() {
+    int searchID;
+    printf("Enter patient ID to search: ");
+    scanf("%d", &searchID);
+
+    for (int i = 0; i < patientCount; i++) {
+        if (patients[i].id == searchID) {
+            printf("ID: %d, Name: %s, Age: %d, Gender: %c, Condition: %s\n",
+                   patients[i].id, patients[i].name, patients[i].age,
+                   patients[i].gender, patients[i].condition);
+            return;
+        }
+    }
+    printf("Patient not found.\n");
+}
+
+void updateCondition() {
+    int searchID;
+    printf("Enter patient ID to update: ");
+    scanf("%d", &searchID);
+
+    for (int i = 0; i < patientCount; i++) {
+        if (patients[i].id == searchID) {
+            printf("Enter new condition: ");
+            scanf(" %[^\n]", patients[i].condition);
+            printf("Condition updated successfully.\n");
+            return;
+        }
+    }
+    printf("Patient not found.\n");
+}
+
+void displayPatients() {
+    printf("Patient Records:\n");
+    for (int i = 0; i < patientCount; i++) {
+        printf("ID: %d, Name: %s, Age: %d, Gender: %c, Condition: %s\n",
+               patients[i].id, patients[i].name, patients[i].age,
+               patients[i].gender, patients[i].condition);
+    }
+}
+
+int main() {
+    int choice;
+    while (1) {
+        printf("\nHospital Patient Management System:\n");
+        printf("1. Add a new patient\n");
+        printf("2. Search for a patient by ID\n");
+        printf("3. Update a patient's condition\n");
+        printf("4. Display all patients\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addPatient(); break;
+            case 2: searchPatient(); break;
+            case 3: updateCondition(); break;
+            case 4: displayPatients(); break;
+            case 5: return 0;
+            default: printf("Invalid choice. Try again.\n");
+        }
+    }
+}
